@@ -22,12 +22,24 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
     sendResponse({ searchEngines });
     return true;
   } else if (message.action === "addSearchEngine") {
-    addSearchEngine(message.engine);
-    sendResponse({ success: true });
+    addSearchEngine(message.engine)
+      .then(success => {
+        sendResponse({ success });
+      })
+      .catch(error => {
+        console.error("Error adding search engine:", error);
+        sendResponse({ success: false, error: error.message });
+      });
     return true;
   } else if (message.action === "removeSearchEngine") {
-    removeSearchEngine(message.id);
-    sendResponse({ success: true });
+    removeSearchEngine(message.id)
+      .then(success => {
+        sendResponse({ success });
+      })
+      .catch(error => {
+        console.error("Error removing search engine:", error);
+        sendResponse({ success: false, error: error.message });
+      });
     return true;
   } else if (message.action === "performSearch") {
     performSearch(message.engineId, message.searchTerms);
@@ -37,7 +49,7 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
 });
 
 // Add a new search engine
-function addSearchEngine(engine) {
+async function addSearchEngine(engine) {
   // Generate a unique ID if not provided
   if (!engine.id) {
     engine.id = Date.now().toString();
@@ -53,13 +65,49 @@ function addSearchEngine(engine) {
   }
   
   // Save to storage
-  browser.storage.local.set({ searchEngines });
+  await browser.storage.local.set({ searchEngines });
+  
+  // Register with Firefox
+  return registerWithFirefox(engine);
 }
 
 // Remove a search engine
-function removeSearchEngine(id) {
-  searchEngines = searchEngines.filter(engine => engine.id !== id);
-  browser.storage.local.set({ searchEngines });
+async function removeSearchEngine(id) {
+  searchEngines = searchEngines.filter(e => e.id !== id);
+  await browser.storage.local.set({ searchEngines });
+  return true;
+}
+
+// Register a search engine with Firefox using MozEngine object
+async function registerWithFirefox(engine) {
+  try {
+    // Create a new search engine alias
+    const alias = engine.shortName || engine.name.toLowerCase().replace(/\s+/g, '');
+    
+    // Firefox doesn't allow direct search engine registration from extensions anymore.
+    // We'll add this info to help users add it manually through Firefox settings
+    engine.isFirefoxRegistered = true;
+    
+    // Save the updated engine info
+    const index = searchEngines.findIndex(e => e.id === engine.id);
+    if (index >= 0) {
+      searchEngines[index] = engine;
+      await browser.storage.local.set({ searchEngines });
+    }
+    
+    // Show instructions notification
+    browser.notifications.create({
+      "type": "basic",
+      "title": "Search Engine Added",
+      "message": `To add ${engine.name} to Firefox's search bar, visit the search engine's website and look for a "+" icon in the address bar.`,
+      "iconUrl": "icons/icon-48.png"
+    });
+    
+    return true;
+  } catch (error) {
+    console.error("Error registering search engine with Firefox:", error);
+    throw error;
+  }
 }
 
 // Perform a search using the specified engine
@@ -113,9 +161,7 @@ browser.omnibox.onInputEntered.addListener((text, disposition) => {
   }
   
   // If no valid engine found or format incorrect, use default search
-  browser.search.search({
-    query: text
-  });
+  browser.tabs.create({ url: `https://www.google.com/search?q=${encodeURIComponent(text)}` });
 });
 
 // Update the search engines when storage changes

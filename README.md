@@ -2,6 +2,13 @@
 
 This Firefox extension allows users to add custom search engines to Firefox's search functionality. Get back full control over search.
 
+## Quick Look
+#### Search Preview
+![Search using custom search engine](./docs/images/search-preview.png)
+
+#### Settings Screen
+![Settings screen](./docs/images/settings-screen.png)
+
 ## Features
 
 - Add custom search engines with their search URL

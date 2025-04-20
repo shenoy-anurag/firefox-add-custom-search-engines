@@ -2,15 +2,16 @@
   "manifest_version": 2,
   "name": "Custom Search Engines",
   "version": "1.0",
-  "description": "Add custom search engines to Firefox",
+  "description": "Add custom search engines to Firefox's Awesome Bar",
   "permissions": [
+    "notifications",
     "storage",
     "tabs",
-    "search",
-    "<all_urls>"
+    "search"
   ],
   "background": {
-    "scripts": ["background.js"]
+    "scripts": ["opensearch-template.js", "background.js"],
+    "type": "module"
   },
   "browser_action": {
     "default_title": "Custom Search",

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
   <title>Custom Search Engines - Options</title>
@@ -10,19 +11,19 @@
       margin: 0 auto;
       padding: 20px;
     }
-    
+
     .header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 20px;
     }
-    
+
     h1 {
       margin: 0;
       color: #3366cc;
     }
-    
+
     .add-button {
       background-color: #3366cc;
       color: white;
@@ -32,28 +33,28 @@
       cursor: pointer;
       font-weight: bold;
     }
-    
+
     .engine-list {
       margin-top: 20px;
     }
-    
+
     .engine-item {
       display: flex;
       align-items: center;
       padding: 12px;
       border-bottom: 1px solid #eee;
     }
-    
+
     .engine-icon {
       width: 24px;
       height: 24px;
       margin-right: 16px;
     }
-    
+
     .engine-details {
       flex-grow: 1;
     }
-    
+
     .engine-name {
       font-weight: bold;
       margin-bottom: 4px;
@@ -62,8 +63,14 @@
     .engine-url {
       color: #666;
       font-size: 0.9em;
+      margin-bottom: 4px;
     }
-    
+
+    .engine-shortname {
+      color: #000000;
+      font-size: 0.9em;
+    }
+
     .engine-actions button {
       background-color: transparent;
       border: 1px solid #ddd;
@@ -72,15 +79,15 @@
       margin-left: 8px;
       cursor: pointer;
     }
-    
+
     .engine-actions button:hover {
       background-color: #f5f5f5;
     }
-    
+
     .delete-btn {
       color: #cc3333;
     }
-    
+
     .modal {
       display: none;
       position: fixed;
@@ -89,9 +96,9 @@
       top: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0,0,0,0.5);
+      background-color: rgba(0, 0, 0, 0.5);
     }
-    
+
     .modal-content {
       background-color: white;
       margin: 10% auto;
@@ -100,114 +107,193 @@
       width: 600px;
       max-width: 90%;
     }
-    
+
     .form-group {
       margin-bottom: 16px;
     }
-    
+
     label {
       display: block;
       margin-bottom: 6px;
       font-weight: bold;
     }
-    
-    input[type="text"], 
-    input[type="url"], 
+
+    input[type="text"],
+    input[type="url"],
     select {
       width: 100%;
       padding: 8px;
       border: 1px solid #ddd;
       border-radius: 4px;
+      box-sizing: border-box;
     }
-    
+
     .form-footer {
       display: flex;
       justify-content: flex-end;
       margin-top: 20px;
     }
-    
+
     .form-footer button {
       padding: 8px 16px;
       border-radius: 4px;
       cursor: pointer;
       margin-left: 8px;
     }
-    
+
     .cancel-btn {
       background-color: #f5f5f5;
       border: 1px solid #ddd;
     }
-    
+
     .save-btn {
       background-color: #3366cc;
       color: white;
       border: none;
     }
-    
+
     .icon-preview {
       width: 32px;
       height: 32px;
       border: 1px solid #ddd;
       display: inline-block;
       vertical-align: middle;
-      margin-left: 10px;
+      margin-top: 10px;
       background-size: contain;
       background-repeat: no-repeat;
       background-position: center;
     }
-    
+
     .no-engines {
       text-align: center;
       padding: 40px 0;
       color: #666;
     }
-    
+
     .help-text {
       font-size: 0.9em;
       color: #666;
       margin-top: 4px;
     }
+
+    .instructions-panel {
+      margin-bottom: 20px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .instructions-header {
+      background-color: #f5f5f5;
+      padding: 12px 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .instructions-header h2 {
+      margin: 0;
+      font-size: 16px;
+      color: #333;
+    }
+
+    .toggle-btn {
+      background-color: #3366cc;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .instructions-content {
+      padding: 15px;
+      background-color: #fff;
+    }
+
+    .instructions-content ol {
+      padding-left: 20px;
+    }
+
+    .instructions-content li {
+      margin-bottom: 8px;
+    }
   </style>
 </head>
+
 <body>
   <div class="header">
     <h1>Custom Search Engines</h1>
     <button id="add-engine-btn" class="add-button">Add New Engine</button>
   </div>
-  
+
+  <div class="instructions-panel">
+    <div class="instructions-header">
+      <h2>Firefox Integration Instructions</h2>
+      <button id="toggle-instructions" class="toggle-btn">Show Instructions</button>
+    </div>
+    <div id="instructions-content" class="instructions-content" style="display: none;">
+      <div class="instructions-container">
+        <h2>Adding Search Engines to Firefox's Awesome Bar</h2>
+
+        <p>Mozilla Firefox restricts how extensions can add search engines directly to the browser.
+          Follow these steps to add your custom search engine to Firefox:</p>
+
+        <ol>
+          <li><strong>Add your search engine</strong> using the "Add New Engine" button above.</li>
+          <li>It should open a new page with further instructions.</li>
+          <li>If you didn't install it immediately after adding the engine, you can click on the "Install" button.</li>
+          <li>Follow the instructions in the new tab it opens.</li>
+        </ol>
+
+        <h2>Assigning a shortname</h2>
+
+        <ol>
+          <li>Click the Hamburger Menu Icon in Firefox.</li>
+          <li>Select "Settings".</li>
+          <li>Go to "Search" in the left sidebar.</li>
+          <li>Scroll down to "Search Shortcuts" section.</li>
+          <li>Click on your custom search engine and add a keyword -- ensure it starts with an "@".</li>
+        </ol>
+
+        <p>In the meantime, you can still use the search engines from this extension via the toolbar icon!</p>
+      </div>
+    </div>
+  </div>
+
   <div id="engine-list" class="engine-list">
     <div class="no-engines">
       <p>No custom search engines added yet.</p>
       <p>Click "Add New Engine" to get started.</p>
     </div>
   </div>
-  
+
   <div id="engine-modal" class="modal">
     <div class="modal-content">
       <h2 id="modal-title">Add New Search Engine</h2>
-      
+
       <form id="engine-form">
         <input type="hidden" id="engine-id">
-        
+
         <div class="form-group">
           <label for="engine-name">Search Engine Name:</label>
           <input type="text" id="engine-name" required>
         </div>
-        
+
         <div class="form-group">
           <label for="engine-url">Search URL:</label>
           <input type="url" id="engine-url" required>
           <div class="help-text">Use {searchTerms} to indicate where the search query should be inserted.</div>
           <div class="help-text">Example: https://chat.openai.com/?q={searchTerms}</div>
         </div>
-        
+
         <div class="form-group">
           <label for="engine-icon">Icon URL:</label>
           <input type="url" id="engine-icon">
           <span id="icon-preview" class="icon-preview"></span>
           <div class="help-text">URL to the icon image (favicon.ico, PNG, or SVG)</div>
         </div>
-        
+
         <div class="form-group">
           <label for="engine-method">HTTP Method:</label>
           <select id="engine-method">
@@ -215,13 +301,13 @@
             <option value="POST">POST</option>
           </select>
         </div>
-        
+
         <div class="form-group">
           <label for="engine-shortname">Short Name (optional):</label>
           <input type="text" id="engine-shortname">
           <div class="help-text">Short name for quick access (e.g., "gpt" for ChatGPT)</div>
         </div>
-        
+
         <div class="form-footer">
           <button type="button" id="cancel-btn" class="cancel-btn">Cancel</button>
           <button type="submit" id="save-btn" class="save-btn">Save Engine</button>
@@ -229,7 +315,8 @@
       </form>
     </div>
   </div>
-  
+
   <script src="options.js"></script>
 </body>
+
 </html>
