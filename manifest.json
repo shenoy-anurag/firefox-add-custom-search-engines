@@ -10,7 +10,10 @@
     "search"
   ],
   "background": {
-    "scripts": ["opensearch-template.js", "background.js"],
+    "scripts": [
+      "opensearch-template.js",
+      "background.js"
+    ],
     "type": "module"
   },
   "browser_action": {
@@ -35,5 +38,11 @@
     "32": "icons/icon-32.png",
     "48": "icons/icon-48.png",
     "96": "icons/icon-96.png"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "1b3df9a9-9498-48e1-831d-fe0219f55e40",
+      "strict_min_version": "58.0"
+    }
   }
 }
