@@ -195,16 +195,11 @@ function loadSearchEngines() {
       const engines = result.searchEngines || [];
 
       if (engines.length === 0) {
-        engineList.innerHTML = `
-          <div class="no-engines">
-            <p>No custom search engines added yet.</p>
-            <p>Click "Add New Engine" to get started.</p>
-          </div>
-        `;
+        const engineSelectorNoEngines = getElementById("engine-list-no-engines");
+        engineSelectorNoEngines.style.display = 'block';
         return;
       }
 
-      engineList.innerHTML = '';
       engines.forEach(engine => {
         const engineEl = createEngineElement(engine);
         engineList.appendChild(engineEl);
@@ -219,19 +214,46 @@ function createEngineElement(engine) {
 
   const iconUrl = engine.iconUrl || 'default-icon.png';
 
-  engineEl.innerHTML = `
-    <img src="${iconUrl}" class="engine-icon" onerror="this.src='default-icon.png'">
-    <div class="engine-details">
-      <div class="engine-name">${engine.name}</div>
-      <div class="engine-url">${engine.url}</div>
-      <div class="engine-shortname">${engine.shortName ? `Short name: ${engine.shortName}` : ''}</div>
-    </div>
-    <div class="engine-actions">
-      <button class="install-btn" data-id="${engine.id}">Install</button>
-      <button class="edit-btn" data-id="${engine.id}">Edit</button>
-      <button class="delete-btn" data-id="${engine.id}">Delete</button>
-    </div>
-  `;
+  const img = document.createElement('img');
+  img.src = `${iconUrl}`
+  img.classList = 'engine-icon'
+  img.onerror = "this.src='default-icon.png'"
+  const engineDetailsEl = document.createElement('div');
+  engineDetailsEl.classList = 'engine-details'
+  const engineDetailsNameEl = document.createElement('div');
+  engineDetailsNameEl.classList = 'engine-name'
+  engineDetailsNameEl.textContent = `${engine.name}`
+  const engineDetailsURLEl = document.createElement('div');
+  engineDetailsURLEl.classList = 'engine-url'
+  engineDetailsURLEl.textContent = `${engine.url}`
+  const engineDetailsShortNameEl = document.createElement('div');
+  engineDetailsShortNameEl.classList = 'engine-shortname'
+  engineDetailsShortNameEl.textContent = `${engine.shortName ? `Short name: ${engine.shortName}` : ''}`
+  engineDetailsEl.appendChild(engineDetailsNameEl)
+  engineDetailsEl.appendChild(engineDetailsURLEl)
+  engineDetailsEl.appendChild(engineDetailsShortNameEl)
+
+  const engineActionsEl = document.createElement('div');
+  engineActionsEl.classList = 'engine-actions'
+  const engineActionsInstallButton = document.createElement('button');
+  engineActionsInstallButton.classList = 'install-btn'
+  engineActionsInstallButton.dataId = `${engine.id}`
+  engineActionsInstallButton.textContent = `Install`
+  const engineActionsEditButton = document.createElement('button');
+  engineActionsEditButton.classList = 'edit-btn'
+  engineActionsEditButton.dataId = `${engine.id}`
+  engineActionsEditButton.textContent = `Edit`
+  const engineActionsDeleteButton = document.createElement('button');
+  engineActionsDeleteButton.classList = 'delete-btn'
+  engineActionsDeleteButton.dataId = `${engine.id}`
+  engineActionsDeleteButton.textContent = `Delete`
+  engineActionsEl.appendChild(engineActionsInstallButton)
+  engineActionsEl.appendChild(engineActionsEditButton)
+  engineActionsEl.appendChild(engineActionsDeleteButton)
+
+  engineEl.appendChild(img)
+  engineEl.appendChild(engineDetailsEl)
+  engineEl.appendChild(engineActionsEl)
 
   // Add event listeners for edit and delete buttons
   engineEl.querySelector('.install-btn').addEventListener('click', () => {

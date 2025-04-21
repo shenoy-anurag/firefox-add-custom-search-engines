@@ -3,3 +3,5 @@ exp/
 .DS_Store
 
 .env
+out.txt
+package.sh

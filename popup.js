@@ -32,14 +32,14 @@ function initialize() {
 // Render the search engine buttons
 function renderEngines() {
   const engineSelector = document.getElementById('engine-selector');
+  const engineSelectorAddNew = document.getElementById('engine-selector-add');
   
   if (searchEngines.length === 0) {
-    engineSelector.innerHTML = '<div class="empty-state">No search engines configured. <a href="#" id="add-engine-link">Add one now</a></div>';
+    engineSelectorAddNew.style.display = 'block';
     document.getElementById('add-engine-link').addEventListener('click', openSettings);
     return;
   }
   
-  engineSelector.innerHTML = '';
   
   searchEngines.forEach(engine => {
     const button = document.createElement('button');
@@ -49,10 +49,14 @@ function renderEngines() {
     // Use default icon if none provided
     const iconUrl = engine.iconUrl || 'default-icon.png';
     
-    button.innerHTML = `
-      <img src="${iconUrl}" class="engine-icon" onerror="this.src='default-icon.png'">
-      <span>${engine.name}</span>
-    `;
+    const img = document.createElement('img');
+    img.src = `${iconUrl}`
+    img.classList = 'engine-icon'
+    img.onerror = "this.src='default-icon.png'"
+    const span = document.createElement('span');
+    span.textContent = `${engine.name}`
+    button.appendChild(img)
+    button.appendChild(span)
     
     button.addEventListener('click', () => {
       setActiveEngine(engine.id);
