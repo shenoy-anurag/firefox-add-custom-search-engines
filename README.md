@@ -2,6 +2,9 @@
 
 This Firefox extension allows users to add custom search engines to Firefox's search functionality. Get back full control over search.
 
+**Install from the Firefox Addons Marketplace**
+https://addons.mozilla.org/en-US/firefox/addon/add-custom-search-engines/
+
 ## Quick Look
 #### Search Preview
 ![Search using custom search engine](./docs/images/search-preview.png)
@@ -20,12 +23,15 @@ This Firefox extension allows users to add custom search engines to Firefox's se
 
 ## Installation
 
+**Install from the Firefox Addons Marketplace**
+https://addons.mozilla.org/en-US/firefox/addon/add-custom-search-engines/
+
+## Manual Installation
+
 1. Download the extension files
 2. Open Firefox and go to `about:debugging#/runtime/this-firefox`
 3. Click "Load Temporary Add-on..."
 4. Select any file from the extension folder
-
-For permanent installation, you'll need to submit the extension to Mozilla Add-ons.
 
 ## Usage
 
