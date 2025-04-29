@@ -40,7 +40,6 @@ function renderEngines() {
     return;
   }
   
-  
   searchEngines.forEach(engine => {
     const button = document.createElement('button');
     button.className = 'engine-button';

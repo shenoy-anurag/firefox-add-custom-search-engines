@@ -19,6 +19,7 @@ browser.runtime.onInstalled.addListener(() => {
 // Listen for messages from the popup or options page
 browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === "getSearchEngines") {
+    searchEngines = getSearchEngines();
     sendResponse({ searchEngines });
     return true;
   } else if (message.action === "addSearchEngine") {
@@ -48,6 +49,14 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
   }
 });
 
+function getSearchEngines() {
+  browser.storage.local.get('searchEngines')
+    .then(result => {
+      searchEngines = result.searchEngines || []
+    });
+  return searchEngines;
+}
+
 // Add a new search engine
 async function addSearchEngine(engine) {
   // Generate a unique ID if not provided
@@ -55,7 +64,6 @@ async function addSearchEngine(engine) {
     engine.id = Date.now().toString();
   }
 
-  let searchEngines = [];
   browser.storage.local.get('searchEngines')
     .then(result => {
       searchEngines = result.searchEngines || []
@@ -79,7 +87,6 @@ async function addSearchEngine(engine) {
 
 // Remove a search engine
 async function removeSearchEngine(id) {
-  let searchEngines = [];
   browser.storage.local.get('searchEngines')
     .then(result => {
       searchEngines = result.searchEngines || []
@@ -124,7 +131,6 @@ async function registerWithFirefox(engine) {
 
 // Perform a search using the specified engine
 function performSearch(engineId, searchTerms) {
-  let searchEngines = [];
   browser.storage.local.get('searchEngines')
     .then(result => {
       searchEngines = result.searchEngines || []
